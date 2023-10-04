@@ -25,7 +25,7 @@ async function onload(){
   const currentSubscription = await serviceWorker.pushManager.getSubscription();
 
   if (currentSubscription){ 
-    statusDiv.innerHTML = "Ready to receive notifications! Go <a href='https://near.org/near/widget/ProfilePage?accountId=gagdiez.near'> like something </a>!";
+    statusDiv.innerHTML = "Ready to receive notifications! Go <a href='https://near.org/near/widget/ProfilePage?accountId=gagdiez.near'>like something</a>!";
     unregisterButton.disabled = false;
   }else{
     statusDiv.innerHTML = `Please subscribe to notifications`;
@@ -66,6 +66,6 @@ async function register() {
   });
   console.log(response);
 
-  statusDiv.innerHTML = "Ready to receive notifications! Go <a href='https://near.org/near/widget/ProfilePage?accountId=gagdiez.near'> like something </a>!";
+  statusDiv.innerHTML = "Ready to receive notifications! Go <a href='https://near.org/near/widget/ProfilePage?accountId=gagdiez.near'>like something</a>!";
   registerButton.disabled = true;
 }
