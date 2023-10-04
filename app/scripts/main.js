@@ -10,7 +10,8 @@ async function onload(){
   statusDiv.innerHTML = "Loading ...";
 
   if (!('serviceWorker' in navigator && 'PushManager' in window)) {
-    return statusDiv.innerHTML = "Sorry, browser incompatible with Push Notifications";
+    statusDiv.innerHTML = "Incompatible Browser :(";
+    return 
   }
 
   // Get service worker or Register a new one
@@ -39,6 +40,7 @@ async function register() {
   if (Notification.permission === 'denied') {
     return statusDiv.innerHTML = "Please allow notifications";
   }
+
   statusDiv.innerHTML = "Subscribing...";
 
   const HOST = 'https://discovery-notifications-mainnet.near.org';
@@ -62,7 +64,8 @@ async function register() {
     method: 'POST',
     body: JSON.stringify(NearNotificationsPayload),
   });
-
   console.log(response);
+
   statusDiv.innerHTML = "Ready to receive notifications! Go <a href='https://near.org/near/widget/ProfilePage?accountId=gagdiez.near'> like something </a>!";
+  registerButton.disabled = true;
 }
