@@ -6,7 +6,11 @@ const type2Notification = {
   'like': 'liked your post',
   'follow': 'followed you',
   'comment': 'commented your post',
-  'mention': 'mentioned you'
+  'mention': 'mentioned you',
+  'devgovgigs/like': 'liked your devhub post',
+  'devgovgigs/mention': 'mentioned you in a devhub post',
+  'devgovgigs/edit': 'edited a devhub post',
+  'devgovgigs/reply': 'replied to your devhub post',
 };
 
 self.addEventListener('install', (_) => {
@@ -39,13 +43,19 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   console.log('[Service Worker] Notification clicked:', event.notification);
 
-  const notification = event.notification.data;
-  const receiver = notification.receiver;
-  const actionAtBlockHeight = notification.actionAtBlockHeight;
+  const notification = event.notification;
+  const {valueType, receiver, actionAtBlockHeight, devhubPostId} = notification.data;
+  notification.close();
 
-  event.notification.close();
+  let notificationUrl = '';
+
+  if (valueType.includes('devgovgigs')) {
+    notificationUrl = `https://near.org/devhub.near/widget/app?page=post&id=${devhubPostId}`;
+  } else {
+    notificationUrl = `https://near.org/s/p?a=${receiver}&b=${actionAtBlockHeight}`;
+  }
 
   event.waitUntil(
-    clients.openWindow(`https://near.org/s/p?a=${receiver}&b=${actionAtBlockHeight}`)
+    clients.openWindow(notificationUrl)
   );
 });
