@@ -3,31 +3,29 @@
 const statusDiv = document.querySelector('#status');
 const registerButton = document.querySelector('#register');
 
-window.onload = onload;
 let serviceWorker = undefined;
 
-async function onload(){
+window.onload = async () => {
   statusDiv.innerHTML = "Loading ...";
 
   if (!('serviceWorker' in navigator && 'PushManager' in window)) {
     statusDiv.innerHTML = "Incompatible Browser :(";
-    return 
+    return
   }
 
   // Get service worker or Register a new one
   serviceWorker = await navigator.serviceWorker.getRegistration();
 
-  if(!serviceWorker){
+  if (!serviceWorker) {
     const serviceWorkedURL = new URL('sw.js', import.meta.url);
     serviceWorker = await navigator.serviceWorker.register(serviceWorkedURL);
   }
 
   const currentSubscription = await serviceWorker.pushManager.getSubscription();
 
-  if (currentSubscription){ 
+  if (currentSubscription) {
     statusDiv.innerHTML = "Ready to receive notifications! Go <a href='https://near.org/near/widget/ProfilePage?accountId=gagdiez.near'>like something</a>!";
-    unregisterButton.disabled = false;
-  }else{
+  } else {
     statusDiv.innerHTML = `Please subscribe to notifications`;
     registerButton.disabled = false;
   }

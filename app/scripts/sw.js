@@ -36,16 +36,16 @@ self.addEventListener('push', (event) => {
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', (event) => {
   console.log('[Service Worker] Notification clicked:', event.notification);
 
   const notification = event.notification.data;
   const receiver = notification.receiver;
-  const block = notification.blockHeight;
+  const actionAtBlockHeight = notification.actionAtBlockHeight;
 
   event.notification.close();
 
   event.waitUntil(
-    clients.openWindow(`https://near.org/s/p?a=${receiver}&b=${block}`)
+    clients.openWindow(`https://near.org/s/p?a=${receiver}&b=${actionAtBlockHeight}`)
   );
 });
